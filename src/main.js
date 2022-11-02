@@ -7,6 +7,7 @@ import {
   faRotate,
   faAngleLeft,
   faCrown,
+  faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 
 import App    from './App.vue';
@@ -16,10 +17,7 @@ import store  from './store';
 import './registerServiceWorker';
 import './assets/tailwind.css';
 
-library.add(faSpinner);
-library.add(faRotate);
-library.add(faAngleLeft);
-library.add(faCrown);
+library.add(faSpinner, faRotate, faAngleLeft, faCrown, faTrash);
 
 createApp(App)
   .component('FontAwesomeIcon', FontAwesomeIcon)

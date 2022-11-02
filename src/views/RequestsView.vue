@@ -68,7 +68,7 @@
 
     <!-- --------------------- CONTENT - START --------------------- -->
     <div id="content" class="w-full overflow-y-scroll">
-      <div id="header-content" class="px-5 py-3 flex items-center">
+      <div id="content-header" class="px-5 py-3 flex items-center border-b border-b-slate-300">
         <div
           id="title-content"
           class="flex items-center hover:cursor-pointer active:text-gray-blue-700"
@@ -81,9 +81,7 @@
           <span class="ml-3 text-lg">{{ selectedData.id }}</span>
         </div>
 
-        <Button class="ml-auto" variant="gray" icon="crown">
-          Upgrade
-        </Button>
+        <Button class="ml-auto" variant="gray" icon="crown">Upgrade</Button>
 
         <div
           id="profile"
@@ -103,6 +101,23 @@
           </div>
 
           <span class="ml-2 font-semibold">King Doe</span>
+        </div>
+      </div>
+
+      <div id="content-body" class="px-5 py-3">
+        <div id="content-body-overview" class="flex">
+          <div class="grow grid grid-cols-8">
+            <div class="mb-3"><Badge variant="yellow">{{ selectedData.method }}</Badge></div>
+            <span class="col-span-7">http://localhost:3000/api/v1/billing-123/receive?name=dragon&suffix=flux</span>
+
+            <span class="text-slate-400">Host</span>
+            <span class="col-span-7">{{ selectedData.ip_address }}</span>
+
+            <span class="text-slate-400">Date</span>
+            <span class="col-span-7">{{ selectedData.created_at }}</span>
+          </div>
+
+          <Button class="mt-auto" size="xl" variant="red" icon="trash">Delete</Button>
         </div>
       </div>
 

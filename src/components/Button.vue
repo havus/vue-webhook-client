@@ -61,6 +61,10 @@ export default {
           enabled: 'text-white bg-gray-700 hover:bg-gray-800 focus:ring-gray-200',
           disabled: 'text-white bg-gray-700 hover:bg-gray-800 focus:ring-gray-200',
         },
+        red: {
+          enabled: 'text-white bg-red-500 hover:bg-red-600 focus:ring-red-200',
+          disabled: 'text-white bg-red-700 hover:bg-red-800 focus:ring-red-200',
+        },
       },
       buttonSizeList: {
         sm: 'py-1 px-3 text-xs',
