@@ -1,18 +1,29 @@
 <template>
-  <div id="dashboard" class="h-screen relative flex pt-11 text-sm">
+  <div id="dashboard" class="h-screen relative flex text-sm text-gray-blue-900">
     <!-- --------------------- LEFTBAR - START --------------------- -->
     <div
       id="leftbar"
-      class="w-72 bg-gray-blue-50 border-r-2 border-r-slate-300 py-4 overflow-y-scroll
+      class="w-72 bg-gray-blue-50 border-r border-r-slate-300 overflow-y-scroll
         flex flex-col"
     >
-      <div id="header-request-list" class="px-5 mb-3 flex justify-between items-center">
+      <div id="header-logo" class="px-5 py-3 flex items-center">
+        <router-link to="/" class="flex items-center justify-between">
+          <img src="@/assets/logo.png" class="h-9 mr-2" alt="logo"/>
+
+          <div>
+            <span class="text-xl font-semibold">Webhook</span>
+            <span class="ml-1 font-extralight text-xs">by Wadaw</span>
+          </div>
+        </router-link>
+      </div>
+
+      <div id="header-request-list" class="px-5 my-2 flex justify-between items-center">
         <div class="flex items-center">
-          <p class="font-semibold text-gray-blue-900">REQUEST ({{requests.length}})</p>
+          <p class="font-semibold">REQUEST ({{requests.length}})</p>
           <FontAwesomeIcon
             size="xs"
             icon="rotate"
-            class="ml-1 animate-spin h-3 w-3 text-gray-blue-900"
+            class="ml-1 animate-spin h-3 w-3"
           />
         </div>
 
@@ -56,33 +67,73 @@
     <!-- --------------------- LEFTBAR - END --------------------- -->
 
     <!-- --------------------- CONTENT - START --------------------- -->
-    <div id="content" class="p-5 w-full overflow-y-scroll">
-      <div class="grid grid-cols-2 gap-3">
-        <CardTable
-          title="Request Details"
-          :item="requestDetailTranslator(selectedData)"
-        />
-        <CardTable
-          title="Headers"
-          :item="parseJson(selectedData.raw_headers)"
-          :value-as-code="true"
-        />
-        <CardTable
-          title="Query strings"
-          :item="parseJson(selectedData.raw_query_strings)"
-          :value-as-code="true"
-        />
-        <CardTable
-          title="Form Values"
-          :item="{}"
-          :value-as-code="true"
-        />
-        <CardTable
-          title="Raw Body"
-          class="col-span-2"
-          :item="parseJson(selectedData.raw_body)"
-          :value-as-raw="true"
-        />
+    <div id="content" class="w-full overflow-y-scroll">
+      <div id="header-content" class="px-5 py-3 flex items-center">
+        <div
+          id="title-content"
+          class="flex items-center hover:cursor-pointer active:text-gray-blue-700"
+        >
+          <FontAwesomeIcon
+            size="xs"
+            icon="angle-left"
+            class="h-7"
+          />
+          <span class="ml-3 text-lg">{{ selectedData.id }}</span>
+        </div>
+
+        <Button class="ml-auto" variant="gray" icon="crown">
+          Upgrade
+        </Button>
+
+        <div
+          id="profile"
+          class="ml-3 px-3 py-1 flex items-center justify-center rounded border border-slate-200
+            hover:cursor-pointer hover:bg-slate-100 active:bg-slate-200"
+        >
+          <div
+            id="profile-pic"
+            class="rounded rounded-full bg-slate-300 h-8 w-8
+              flex items-center justify-center overflow-hidden"
+          >
+            <FontAwesomeIcon
+              size="xs"
+              icon="crown"
+              class="h-5 text-orange-500"
+            />
+          </div>
+
+          <span class="ml-2 font-semibold">King Doe</span>
+        </div>
+      </div>
+
+      <div id="content" class="p-5 w-full overflow-y-scroll">
+        <div class="grid grid-cols-2 gap-3">
+          <CardTable
+            title="Request Details"
+            :item="requestDetailTranslator(selectedData)"
+          />
+          <CardTable
+            title="Headers"
+            :item="parseJson(selectedData.raw_headers)"
+            :value-as-code="true"
+          />
+          <CardTable
+            title="Query strings"
+            :item="parseJson(selectedData.raw_query_strings)"
+            :value-as-code="true"
+          />
+          <CardTable
+            title="Form Values"
+            :item="{}"
+            :value-as-code="true"
+          />
+          <CardTable
+            title="Raw Body"
+            class="col-span-2"
+            :item="parseJson(selectedData.raw_body)"
+            :value-as-raw="true"
+          />
+        </div>
       </div>
     </div>
     <!-- --------------------- CONTENT - END --------------------- -->

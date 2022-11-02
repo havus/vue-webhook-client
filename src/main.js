@@ -1,7 +1,13 @@
-import { createApp }            from 'vue';
-import { faSpinner, faRotate }            from '@fortawesome/free-solid-svg-icons';
-import { library }              from '@fortawesome/fontawesome-svg-core';
-import { FontAwesomeIcon }      from '@fortawesome/vue-fontawesome';
+import { createApp }        from 'vue';
+import { library }          from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon }  from '@fortawesome/vue-fontawesome';
+
+import {
+  faSpinner,
+  faRotate,
+  faAngleLeft,
+  faCrown,
+} from '@fortawesome/free-solid-svg-icons';
 
 import App    from './App.vue';
 import router from './router';
@@ -12,6 +18,8 @@ import './assets/tailwind.css';
 
 library.add(faSpinner);
 library.add(faRotate);
+library.add(faAngleLeft);
+library.add(faCrown);
 
 createApp(App)
   .component('FontAwesomeIcon', FontAwesomeIcon)
