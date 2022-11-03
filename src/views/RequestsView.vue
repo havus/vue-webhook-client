@@ -1,9 +1,9 @@
 <template>
-  <div id="dashboard" class="h-screen relative flex text-sm text-gray-blue-900">
+  <div id="dashboard" class="h-screen relative flex text-sm text-gray-700">
     <!-- --------------------- LEFTBAR - START --------------------- -->
     <div
       id="leftbar"
-      class="w-72 bg-gray-blue-50 border-r border-r-slate-300 overflow-y-scroll
+      class="w-72 bg-gray-50 border-r border-r-slate-300 overflow-y-scroll
         flex flex-col"
     >
       <div id="header-logo" class="px-5 py-3 flex items-center">
@@ -29,6 +29,7 @@
 
         <Button
           size="sm"
+          variant="gray"
           :disabled="loading"
           @click="getNewerRequests"
         >
@@ -41,8 +42,8 @@
         :key="i"
         :class="`px-5 py-2 hover:cursor-pointer text-s
         ${selectedData.id == request.id ?
-            ' bg-gray-blue-900 text-white' :
-            'text-gray-blue-900 hover:bg-slate-200'
+            ' bg-gray-700 text-white' :
+            'text-gray-700 hover:bg-slate-200'
         }`"
         @click="selectData(request)"
       >
@@ -71,12 +72,14 @@
       <div id="content-header" class="px-5 py-3 flex items-center border-b border-b-slate-300">
         <div
           id="title-content"
-          class="flex items-center hover:cursor-pointer active:text-gray-blue-700"
+          class="flex items-center"
         >
           <FontAwesomeIcon
+            v-if="Object.keys(selectedData).length > 0"
             size="xs"
             icon="angle-left"
-            class="h-7"
+            class="h-7 hover:cursor-pointer active:text-gray-700"
+            @click="() => selectedData = {}"
           />
           <span class="ml-3 text-lg">{{ selectedData.id }}</span>
         </div>
@@ -104,50 +107,42 @@
         </div>
       </div>
 
-      <div id="content-body" class="px-5 py-3">
-        <div id="content-body-overview" class="flex">
-          <div class="grow grid grid-cols-8">
-            <div class="mb-3"><Badge variant="yellow">{{ selectedData.method }}</Badge></div>
-            <span class="col-span-7">http://localhost:3000/api/v1/billing-123/receive?name=dragon&suffix=flux</span>
+      <div
+        v-if="Object.keys(selectedData).length > 0"
+        id="content-body-overview"
+        class="flex px-5 py-3"
+      >
+        <div class="grow grid grid-cols-8">
+          <div class="mb-3"><Badge variant="yellow">{{ selectedData.method }}</Badge></div>
+          <span class="col-span-7">{{ selectedData.hostname }}</span>
 
-            <span class="text-slate-400">Host</span>
-            <span class="col-span-7">{{ selectedData.ip_address }}</span>
+          <span class="text-slate-400">Host</span>
+          <span class="col-span-7">{{ selectedData.ip_address }}</span>
 
-            <span class="text-slate-400">Date</span>
-            <span class="col-span-7">{{ selectedData.created_at }}</span>
-          </div>
-
-          <Button class="mt-auto" size="xl" variant="red" icon="trash">Delete</Button>
+          <span class="text-slate-400">Date</span>
+          <span class="col-span-7">{{ selectedData.created_at }}</span>
         </div>
+
+        <Button class="mt-auto" size="xl" variant="red" icon="trash">Delete</Button>
       </div>
 
-      <div id="content" class="p-5 w-full overflow-y-scroll">
-        <div class="grid grid-cols-2 gap-3">
-          <CardTable
-            title="Request Details"
-            :item="requestDetailTranslator(selectedData)"
-          />
-          <CardTable
-            title="Headers"
-            :item="parseJson(selectedData.raw_headers)"
-            :value-as-code="true"
-          />
-          <CardTable
-            title="Query strings"
-            :item="parseJson(selectedData.raw_query_strings)"
-            :value-as-code="true"
-          />
-          <CardTable
-            title="Form Values"
-            :item="{}"
-            :value-as-code="true"
-          />
-          <CardTable
-            title="Raw Body"
-            class="col-span-2"
-            :item="parseJson(selectedData.raw_body)"
-            :value-as-raw="true"
-          />
+      <div
+        v-if="Object.keys(selectedData).length > 0"
+        id="content-body"
+        class="grid grid-cols-2 divide-x"
+      >
+        <CardTableCollapse title="Headers" :data="parseJson(selectedData.raw_headers)"/>
+        <CardTableCollapse title="Query Strings" :data="parseJson(selectedData.raw_query_strings)"/>
+        <CardCollapse
+          title="Raw Body"
+          class="col-span-2"
+          :data="parseJson(selectedData.raw_body)"
+        />
+      </div>
+
+      <div id="advertisment" class="p-4 flex items-center justify-center">
+        <div id="ads-box" class="bg-slate-300 rounded h-20 w-3/5 flex items-center justify-center">
+          <p class="animate-bounce text-lg font-semibold">ADVERTISEMENT</p>
         </div>
       </div>
     </div>
@@ -159,14 +154,16 @@
 import { mapState, mapActions } from 'vuex';
 import Button from '../components/Button.vue';
 import Badge from '../components/Badge.vue';
-import CardTable from '../components/CardTable.vue';
+import CardTableCollapse from '../components/CardTableCollapse.vue';
+import CardCollapse from '../components/CardCollapse.vue';
 
 export default {
   name: 'RequestsView',
   components: {
     Badge,
     Button,
-    CardTable,
+    CardCollapse,
+    CardTableCollapse,
   },
   data() {
     return {
